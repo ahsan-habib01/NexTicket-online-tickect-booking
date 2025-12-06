@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import { bookingAPI } from '../../../utils/api';
 import toast from 'react-hot-toast';
+import PaymentModal from '../../../Components/PaymentModal';
 
 const MyBookedTickets = () => {
   const { user } = useAuth();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   useEffect(() => {
     if (user?.email) {
@@ -58,10 +61,16 @@ const MyBookedTickets = () => {
     return `${days}d ${hours}h ${minutes}m`;
   };
 
-  const handlePayNow = bookingId => {
-    // We'll implement Stripe payment in next step
-    toast.info('Payment integration coming next!');
-    // For now, just show message
+  const handlePayNow = booking => {
+    setSelectedBooking(booking);
+    setShowPaymentModal(true);
+  };
+
+  const handlePaymentSuccess = () => {
+    setShowPaymentModal(false);
+    setSelectedBooking(null);
+    fetchBookings(); // Refresh bookings
+    toast.success('Payment completed successfully!');
   };
 
   if (loading) {
@@ -167,11 +176,22 @@ const MyBookedTickets = () => {
                 {canPay && (
                   <div className="card-actions justify-end mt-4">
                     <button
-                      onClick={() => handlePayNow(booking._id)}
+                      onClick={() => handlePayNow(booking)} // Pass entire booking
                       className="btn btn-primary btn-sm w-full"
                     >
                       Pay Now
                     </button>
+
+                    {/* Payment Modal */}
+                    {showPaymentModal && selectedBooking && (
+                      <PaymentModal
+                        booking={selectedBooking}
+                        isOpen={showPaymentModal}
+                        onClose={() => setShowPaymentModal(false)}
+                        onSuccess={handlePaymentSuccess}
+                      />
+                    )}
+                    
                   </div>
                 )}
 

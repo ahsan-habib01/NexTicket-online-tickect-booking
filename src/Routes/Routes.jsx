@@ -21,6 +21,12 @@ import UserProfile from '../Pages/Dashboard/User/UserProfile';
 import MyBookedTickets from '../Pages/Dashboard/User/MyBookedTickets';
 import TransactionHistory from '../Pages/Dashboard/User/TransactionHistory';
 
+import AdminDashboardLayout from '../Layouts/AdminDashboardLayout';
+import AdminProfile from '../Pages/Dashboard/Admin/AdminProfile';
+import ManageTickets from '../Pages/Dashboard/Admin/ManageTickets';
+import ManageUsers from '../Pages/Dashboard/Admin/ManageUsers';
+import AdvertiseTickets from '../Pages/Dashboard/Admin/AdvertiseTickets';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -109,6 +115,32 @@ const router = createBrowserRouter([
       {
         path: 'transactions',
         Component: TransactionHistory,
+      },
+    ],
+  },
+  {
+    path: '/dashboard/admin',
+    element: (
+      <PrivateRoute>
+        <AdminDashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: 'profile',
+        Component: AdminProfile,
+      },
+      {
+        path: 'manage-tickets',
+        Component: ManageTickets,
+      },
+      {
+        path: 'manage-users',
+        Component: ManageUsers,
+      },
+      {
+        path: 'advertise',
+        Component: AdvertiseTickets,
       },
     ],
   },

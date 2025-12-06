@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
 import useAuth from '../../Hooks/useAuth';
 import { ticketAPI, bookingAPI } from '../../utils/api';
 import toast from 'react-hot-toast';

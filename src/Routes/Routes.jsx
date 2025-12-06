@@ -3,6 +3,7 @@ import MainLayout from "../Layouts/MainLayout";
 import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import Home from "../Pages/Home/Home/Home";
+import AllTickets from "../Pages/AllTickets/AllTickets";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
         path: 'auth/register',
         Component: Register,
       },
+      {
+        path: 'all-tickets',
+        element: <AllTickets></AllTickets>
+      }
     ]
   },
 ]);

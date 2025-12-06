@@ -139,6 +139,11 @@ export const ticketAPI = {
       body: JSON.stringify({ isAdvertised }),
     });
   },
+
+  // Get all tickets for admin (including pending/rejected)
+  getAllTicketsAdmin: async () => {
+    return apiCall('/api/tickets/all-admin');
+  },
 };
 
 // ============================================

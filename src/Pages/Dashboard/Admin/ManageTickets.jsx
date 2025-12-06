@@ -15,25 +15,39 @@ const ManageTickets = () => {
     try {
       setLoading(true);
 
-      let response;
+      console.log('🔍 Fetching tickets with filter:', filter); // Debug log
+
+      let allTicketsData = [];
+
       if (filter === 'pending') {
-        response = await ticketAPI.getPendingTickets();
-      } else {
-        // Fetch all tickets and filter on frontend
-        response = await ticketAPI.getAllTickets({ limit: 1000 });
-        if (filter !== 'all' && response.success) {
-          response.data = response.data.filter(
-            ticket => ticket.verificationStatus === filter
-          );
-        }
+        // Fetch only pending tickets
+        const response = await ticketAPI.getPendingTickets();
+        console.log('📋 Pending response:', response); // Debug log
+        allTicketsData = response.data || [];
+      } else if (filter === 'all') {
+        // Fetch ALL tickets (pending + approved + rejected)
+        const response = await ticketAPI.getAllTicketsAdmin();
+        console.log('📊 All tickets response:', response); // Debug log
+        allTicketsData = response.data || [];
+      } else if (filter === 'approved') {
+        // Fetch approved tickets
+        const response = await ticketAPI.getAllTickets({ limit: 1000 });
+        console.log('✅ Approved response:', response); // Debug log
+        allTicketsData = response.data || [];
+      } else if (filter === 'rejected') {
+        // Fetch all and filter rejected
+        const response = await ticketAPI.getAllTicketsAdmin();
+        allTicketsData = (response.data || []).filter(
+          ticket => ticket.verificationStatus === 'rejected'
+        );
       }
 
-      if (response.success) {
-        setTickets(response.data);
-      }
+      console.log('✅ Tickets loaded:', allTicketsData.length); // Debug log
+      setTickets(allTicketsData);
     } catch (error) {
-      console.error('Error fetching tickets:', error);
-      toast.error('Failed to load tickets');
+      console.error('❌ Error fetching tickets:', error);
+      toast.error('Failed to load tickets: ' + error.message);
+      setTickets([]);
     } finally {
       setLoading(false);
     }

@@ -86,7 +86,7 @@ const VendorDashboardLayout = () => {
           {/* Sidebar Header */}
           <div className="mb-8">
             <Link to="/" className="text-2xl font-bold text-primary">
-              TicketBari
+              NexTicket
             </Link>
             <p className="text-sm text-gray-500 mt-1">Vendor Dashboard</p>
           </div>

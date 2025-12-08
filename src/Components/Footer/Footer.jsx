@@ -68,7 +68,7 @@ const Footer = () => {
           <ul className="space-y-3 text-black/80 dark:text-white/80">
             <li className="flex items-center justify-center md:justify-start gap-2">
               <FaEnvelope />
-              <span>support@ticketbari.com</span>
+              <span>support@nexticket.com</span>
             </li>
             <li className="flex items-center justify-center md:justify-start gap-2">
               <FaPhone />
@@ -107,7 +107,7 @@ const Footer = () => {
       <div className="w-11/12 mx-auto border-t border-black/20 dark:border-white/20 text-center py-4 text-sm text-black/80 dark:text-white/80">
         © 2025{' '}
         <span className="font-semibold text-black dark:text-white">
-          TicketBari
+          NexTicket
         </span>
         . All rights reserved.
       </div>

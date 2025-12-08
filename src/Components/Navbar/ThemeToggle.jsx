@@ -5,11 +5,26 @@ const ThemeToggle = () => {
     () => localStorage.getItem('theme') || 'light'
   );
 
-  // 🟠 Apply theme whenever it changes
+  // 🟠 Apply theme to HTML element and localStorage
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
+    const root = document.documentElement;
+
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+
+    // Also set data-theme for DaisyUI compatibility
+    root.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  // 🟠 Load theme on initial mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+  }, []);
 
   // 🟠 Handle toggle change
   const handleThemeChange = e => {
@@ -18,29 +33,16 @@ const ThemeToggle = () => {
 
   return (
     <div className="flex items-center gap-2">
-      {/* <input
-        id="theme-toggle"
-        type="checkbox"
-        className="toggle toggle-warning"
-        onChange={handleThemeChange}
-        checked={theme === 'dark'} // ✅ controlled, not defaultChecked
-      /> */}
-      {/* <label
-        htmlFor="theme-toggle"
-        className="text-sm font-medium text-gray-600 dark:text-gray-300"
-      >
-        {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
-      </label> */}
       <label className="swap swap-rotate">
         <input
           type="checkbox"
           onChange={handleThemeChange}
-          defaultChecked={localStorage.getItem('theme') === 'dark'}
+          checked={theme === 'dark'} // ✅ Use controlled checked, not defaultChecked
         />
 
         {/* Sun Icon (Light Mode) */}
         <svg
-          className="swap-off fill-current w-6 h-6 text-primary"
+          className="swap-off fill-current w-6 h-6 text-yellow-500 dark:text-yellow-400"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -49,7 +51,7 @@ const ThemeToggle = () => {
 
         {/* Moon Icon (Dark Mode) */}
         <svg
-          className="swap-on fill-current w-6 h-6 text-primary"
+          className="swap-on fill-current w-6 h-6 text-blue-500 dark:text-blue-400"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >

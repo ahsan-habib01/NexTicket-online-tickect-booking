@@ -1,12 +1,10 @@
-import React, { use, useState, useEffect } from 'react';
+import React, { use, useState, useEffect, useRef } from 'react';
 import Logo from './Logo';
-import NavLinks from './NavLinks';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate, NavLink } from 'react-router';
 import { toast } from 'react-toastify';
 import { HashLoader } from 'react-spinners';
 import { Menu, X } from 'lucide-react';
 import { AuthContext } from '../../Contexts/AuthContext';
-import { IoCreate } from 'react-icons/io5';
 import ThemeToggle from './ThemeToggle';
 import { userAPI } from '../../utils/api';
 
@@ -16,6 +14,8 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [roleLoading, setRoleLoading] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   // Fetch user role
   useEffect(() => {
@@ -26,6 +26,18 @@ const Navbar = () => {
       setRoleLoading(false);
     }
   }, [user]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const fetchUserRole = async () => {
     try {
@@ -46,6 +58,7 @@ const Navbar = () => {
       .then(() => {
         setUser(null);
         setUserRole(null);
+        setDropdownOpen(false);
         navigate('/auth/login');
       })
       .catch(e => toast.error(e.message));
@@ -70,137 +83,274 @@ const Navbar = () => {
   const dashboardLink = getDashboardLink();
 
   return (
-    <nav className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
+    <nav className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 transition-colors duration-300">
       <div className="w-11/12 mx-auto py-4 flex justify-between items-center">
+        {/* Logo - Left Side */}
         <Link to="/">
           <Logo />
         </Link>
 
-        <div className="hidden md:block">
-          <NavLinks />
+        {/* Desktop Menu Items - Center */}
+        <div className="hidden md:flex items-center gap-6">
+          {/* Home Link */}
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `relative font-medium transition-all duration-300 
+               ${
+                 isActive
+                   ? 'text-[#ff6300] dark:text-[#ff6900] after:w-full after:scale-x-100 after:opacity-100'
+                   : 'text-gray-700 dark:text-white hover:text-[#ff6900]'
+               } 
+               after:content-[""] after:absolute after:left-0 after:-bottom-1 
+               after:h-[2px] after:bg-gradient-to-r after:from-orange-400 after:via-orange-500 after:to-orange-600 
+               after:scale-x-0 after:origin-left after:transition-transform after:duration-300
+               hover:after:scale-x-100 hover:after:opacity-100
+               hover:scale-105`
+            }
+          >
+            Home
+          </NavLink>
+
+          {/* All Tickets - Private Route */}
+          {user && (
+            <NavLink
+              to="/all-tickets"
+              className={({ isActive }) =>
+                `relative font-medium transition-all duration-300 
+                 ${
+                   isActive
+                     ? 'text-[#ff6300] dark:text-[#ff6900] after:w-full after:scale-x-100 after:opacity-100'
+                     : 'text-gray-700 dark:text-white hover:text-[#ff6900]'
+                 } 
+                 after:content-[""] after:absolute after:left-0 after:-bottom-1 
+                 after:h-[2px] after:bg-gradient-to-r after:from-orange-400 after:via-orange-500 after:to-orange-600 
+                 after:scale-x-0 after:origin-left after:transition-transform after:duration-300
+                 hover:after:scale-x-100 hover:after:opacity-100
+                 hover:scale-105`
+              }
+            >
+              All Tickets
+            </NavLink>
+          )}
+
+          {/* Dashboard - Private Route */}
+          {user && dashboardLink && (
+            <NavLink
+              to={dashboardLink}
+              className={({ isActive }) =>
+                `relative font-medium transition-all duration-300 
+                 ${
+                   isActive
+                     ? 'text-[#ff6300] dark:text-[#ff6900] after:w-full after:scale-x-100 after:opacity-100'
+                     : 'text-gray-700 dark:text-white hover:text-[#ff6900]'
+                 } 
+                 after:content-[""] after:absolute after:left-0 after:-bottom-1 
+                 after:h-[2px] after:bg-gradient-to-r after:from-orange-400 after:via-orange-500 after:to-orange-600 
+                 after:scale-x-0 after:origin-left after:transition-transform after:duration-300
+                 hover:after:scale-x-100 hover:after:opacity-100
+                 hover:scale-105`
+              }
+            >
+              Dashboard
+            </NavLink>
+          )}
         </div>
 
+        {/* Mobile Hamburger */}
         <button
-          className="md:hidden p-2 rounded-lg hover:bg-orange-400 transition"
+          className="md:hidden p-2 rounded-lg hover:bg-orange-100 dark:hover:bg-gray-700 transition-colors duration-200"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          {menuOpen ? <X size={26} /> : <Menu size={26} />}
+          {menuOpen ? (
+            <X size={26} className="text-gray-700 dark:text-gray-200" />
+          ) : (
+            <Menu size={26} className="text-gray-700 dark:text-gray-200" />
+          )}
         </button>
 
-        {loading ? (
-          <HashLoader color="orange" size={40} />
-        ) : user ? (
-          <div className="hidden md:flex flex-col items-center space-y-2 ">
-            <div className="flex justify-center items-center gap-4">
-              <ThemeToggle></ThemeToggle>
-              <button
-                popoverTarget="popover-1"
-                style={{ anchorName: '--anchor-1' }}
-                className="relative group"
-              >
-                <img
-                  src={
-                    user?.photoURL ||
-                    'https://img.icons8.com/?size=160&id=114015&format=png'
-                  }
-                  className="h-11 w-11 border-2 border-amber-400 rounded-full object-cover cursor-pointer"
-                  alt="User"
-                />
+        {/* Right Side - Desktop */}
+        <div className="hidden md:flex items-center gap-4">
+          <ThemeToggle />
 
-                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-[#ff9346] text-white text-sm font-medium py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap pointer-events-none shadow-md">
-                  {user?.displayName}
-                </span>
-              </button>
+          {loading ? (
+            <HashLoader color="orange" size={40} />
+          ) : user ? (
+            // Logged In: Username → Avatar → Dropdown
+            <div className="flex items-center gap-3" ref={dropdownRef}>
+              {/* Username - Left of Avatar */}
+              <span className="text-gray-700 dark:text-gray-200 font-medium">
+                {user?.displayName}
+              </span>
+
+              {/* Clickable Avatar for Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="focus:outline-none focus:ring-2 focus:ring-[#ff9346] rounded-full"
+                >
+                  <img
+                    src={
+                      user?.photoURL ||
+                      'https://img.icons8.com/?size=160&id=114015&format=png'
+                    }
+                    className="h-10 w-10 border-2 border-amber-400 rounded-full object-cover cursor-pointer hover:border-[#ff9346] transition-colors duration-200"
+                    alt="User Avatar"
+                  />
+                </button>
+
+                {/* Dropdown Menu */}
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-2 w-48 transition-colors duration-300 z-50">
+                    <ul className="space-y-1">
+                      {/* My Profile */}
+                      <li>
+                        <Link
+                          to={dashboardLink}
+                          onClick={() => setDropdownOpen(false)}
+                          className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-amber-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 transition-colors duration-200"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                            />
+                          </svg>
+                          <span className="font-medium">My Profile</span>
+                        </Link>
+                      </li>
+
+                      {/* Divider */}
+                      <div className="border-t border-gray-200 dark:border-gray-600 my-1"></div>
+
+                      {/* Logout */}
+                      <li>
+                        <button
+                          onClick={handleSignout}
+                          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors duration-200"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                            />
+                          </svg>
+                          <span className="font-medium">Logout</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
-
-            <ul
-              className="dropdown dropdown-end menu w-52 rounded-box bg-white dark:bg-gray-700 shadow-md space-y-2 text-center"
-              popover="auto"
-              id="popover-1"
-              style={{ positionAnchor: '--anchor-1' }}
-            >
-              <h2 className="text-lg font-semibold">{user?.displayName}</h2>
-              <p className="text-sm ">{user?.email}</p>
-
-              {/* Role Badge */}
-              {userRole && (
-                <div className="badge badge-primary badge-sm mx-auto">
-                  {userRole}
-                </div>
-              )}
-
-              {/* Dashboard Link */}
-              {dashboardLink && (
-                <li>
-                  <Link
-                    to={dashboardLink}
-                    className="hover:bg-amber-50 hover:text-black dark:hover:bg-gray-600"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                      />
-                    </svg>
-                    Dashboard
-                  </Link>
-                </li>
-              )}
-
-              <button
-                onClick={handleSignout}
-                className="px-5 py-2 bg-[#ff9346] text-white rounded-lg font-semibold hover:bg-[#ff6900] transition cursor-pointer"
+          ) : (
+            // Not Logged In: Show Login/Register buttons
+            <div className="flex items-center gap-3">
+              <Link
+                to="/auth/login"
+                className="px-5 py-2 border-2 border-[#ff6900] bg-gradient-to-r from-[#ff9346] to-[#ff6900] text-white rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
               >
-                Sign Out
-              </button>
-            </ul>
-          </div>
-        ) : (
-          <div className="hidden md:flex justify-center items-center gap-4">
-            <ThemeToggle></ThemeToggle>
-            <Link
-              to="/auth/login"
-              className="px-5 py-2 border-2 border-[#ff6900] bg-gradient-to-r from-[#ff9346] to-[#ff6900] text-white rounded-lg font-semibold hover:bg-[#ff6900] hover:border-[#ff9346] hover:shadow-lg hover:scale-105 transition-transform duration-300"
-            >
-              Login
-            </Link>
+                Login
+              </Link>
 
-            <Link
-              to="/auth/register"
-              className="px-5 py-2 border-2 border-[#ff6900] text-[#ff6900] rounded-lg font-semibold hover:bg-[#ff5506] hover:text-white hover:shadow-lg hover:scale-105 transition-transform duration-300"
-            >
-              Register
-            </Link>
-          </div>
-        )}
+              <Link
+                to="/auth/register"
+                className="px-5 py-2 border-2 border-[#ff6900] text-[#ff6900] dark:text-[#ff9346] dark:border-[#ff9346] rounded-lg font-semibold hover:bg-[#ff5506] hover:text-white hover:shadow-lg hover:scale-105 transition-all duration-300"
+              >
+                Register
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
 
+      {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white dark:bg-gray-700 border-t border-white dark:border-gray-700 py-4 space-y-4 text-center ">
-          <NavLinks />
+        <div className="md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-4 space-y-3 transition-colors duration-300">
+          {/* Mobile Menu Items */}
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `block text-center py-2 transition-colors duration-200 ${
+                isActive
+                  ? 'text-[#ff6900] bg-orange-50 dark:bg-gray-700 font-semibold'
+                  : 'text-gray-700 dark:text-gray-200 hover:bg-orange-50 dark:hover:bg-gray-700'
+              }`
+            }
+            onClick={() => setMenuOpen(false)}
+          >
+            Home
+          </NavLink>
+
+          {/* All Tickets - Private */}
+          {user && (
+            <NavLink
+              to="/all-tickets"
+              className={({ isActive }) =>
+                `block text-center py-2 transition-colors duration-200 ${
+                  isActive
+                    ? 'text-[#ff6900] bg-orange-50 dark:bg-gray-700 font-semibold'
+                    : 'text-gray-700 dark:text-gray-200 hover:bg-orange-50 dark:hover:bg-gray-700'
+                }`
+              }
+              onClick={() => setMenuOpen(false)}
+            >
+              All Tickets
+            </NavLink>
+          )}
+
+          {/* Dashboard - Private */}
+          {user && dashboardLink && (
+            <NavLink
+              to={dashboardLink}
+              className={({ isActive }) =>
+                `block text-center py-2 transition-colors duration-200 ${
+                  isActive
+                    ? 'text-[#ff6900] bg-orange-50 dark:bg-gray-700 font-semibold'
+                    : 'text-gray-700 dark:text-gray-200 hover:bg-orange-50 dark:hover:bg-gray-700'
+                }`
+              }
+              onClick={() => setMenuOpen(false)}
+            >
+              Dashboard
+            </NavLink>
+          )}
+
+          {/* Mobile User Section */}
           {user ? (
-            <div className="space-y-3">
-              <div>
+            <div className="space-y-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex flex-col items-center">
                 <img
                   src={
                     user?.photoURL ||
                     'https://img.icons8.com/?size=160&id=114015&format=png'
                   }
-                  className="h-12 w-12 rounded-full border-2 border-orange-400 mx-auto"
+                  className="h-12 w-12 rounded-full border-2 border-orange-400"
                   alt="User"
                 />
-                <p className="font-semibold mt-1">{user?.displayName}</p>
-                <p className="text-sm text-gray-500">{user?.email}</p>
+                <p className="font-semibold mt-2 text-gray-700 dark:text-gray-200">
+                  {user?.displayName}
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {user?.email}
+                </p>
 
-                {/* Role Badge - Mobile */}
                 {userRole && (
                   <div className="badge badge-primary badge-sm mt-2">
                     {userRole}
@@ -208,39 +358,34 @@ const Navbar = () => {
                 )}
               </div>
 
-              {/* Dashboard Link - Mobile */}
-              {dashboardLink && (
-                <Link
-                  to={dashboardLink}
-                  className="block w-3/4 mx-auto py-2 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Dashboard
-                </Link>
-              )}
-
-              <div className="">
-                <ThemeToggle></ThemeToggle>
+              <div className="flex justify-center">
+                <ThemeToggle />
               </div>
+
               <button
-                onClick={handleSignout}
-                className="px-6 py-2 bg-[#ff9346] text-white rounded-lg font-semibold hover:bg-[#ff6900] transition"
+                onClick={() => {
+                  handleSignout();
+                  setMenuOpen(false);
+                }}
+                className="w-3/4 mx-auto block px-6 py-2 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition-colors duration-200"
               >
-                Sign Out
+                Logout
               </button>
             </div>
           ) : (
-            <div className="flex flex-col gap-3 items-center">
+            // Mobile Login/Register
+            <div className="flex flex-col gap-3 items-center pt-3 border-t border-gray-200 dark:border-gray-700">
+              <ThemeToggle />
               <Link
                 to="/auth/login"
-                className="w-3/4 py-2 bg-[#ff9346] text-white rounded-lg font-semibold hover:bg-[#ff6900] transition"
+                className="w-3/4 py-2 bg-[#ff9346] text-white rounded-lg font-semibold hover:bg-[#ff6900] transition-colors duration-200 text-center"
                 onClick={() => setMenuOpen(false)}
               >
                 Login
               </Link>
               <Link
                 to="/auth/register"
-                className="w-3/4 py-2 border-2 border-[#ff9346] text-[#ff6900] rounded-lg font-semibold hover:bg-[#ff9346] hover:text-white transition"
+                className="w-3/4 py-2 border-2 border-[#ff9346] text-[#ff6900] dark:text-[#ff9346] rounded-lg font-semibold hover:bg-[#ff9346] hover:text-white transition-all duration-200 text-center"
                 onClick={() => setMenuOpen(false)}
               >
                 Register

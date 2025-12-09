@@ -26,11 +26,15 @@ import AdminProfile from '../Pages/Dashboard/Admin/AdminProfile';
 import ManageTickets from '../Pages/Dashboard/Admin/ManageTickets';
 import ManageUsers from '../Pages/Dashboard/Admin/ManageUsers';
 import AdvertiseTickets from '../Pages/Dashboard/Admin/AdvertiseTickets';
+import ErrorPage from '../Components/ErrorPage/ErrorPage';
+import Loading from '../Components/Loading/Loading';
 
 const router = createBrowserRouter([
   {
     path: '/',
     Component: MainLayout,
+    errorElement: <ErrorPage></ErrorPage>,
+    hydrateFallbackElement: <Loading></Loading>,
     children: [
       {
         index: true,

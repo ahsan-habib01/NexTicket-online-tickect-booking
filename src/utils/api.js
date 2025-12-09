@@ -1,5 +1,6 @@
 // API Base URL - change in .env.local for production
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL =
+  import.meta.env.VITE_API_URL || 'https://nex-ticket-server.vercel.app';
 
 // ============================================
 // HELPER FUNCTION: Make API Calls

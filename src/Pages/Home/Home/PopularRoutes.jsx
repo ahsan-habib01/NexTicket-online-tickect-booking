@@ -12,7 +12,7 @@ const PopularRoutes = () => {
   ];
 
   return (
-    <section className="container mx-auto px-4 py-16 bg-base-200 dark:bg-gray-800">
+    <section className="container mx-auto px-4 py-16 bg-base-200">
       {/* Section Header */}
       <div className="text-center mb-12 animate-fadeIn">
         <div className="inline-block px-4 py-2 bg-warning/10 rounded-full mb-4">
@@ -20,7 +20,9 @@ const PopularRoutes = () => {
             🗺️ TRENDING
           </span>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">Popular Routes</h2>
+        <h2 className="text-4xl text-base-content md:text-5xl font-bold mb-4">
+          Popular Routes
+        </h2>
         <p className="text-base-content/70 text-lg max-w-2xl mx-auto">
           Discover the most traveled destinations
         </p>
@@ -105,12 +107,9 @@ const PopularRoutes = () => {
           { number: '98%', label: 'On-Time', icon: '⏱️' },
           { number: '5000+', label: 'Happy Customers', icon: '😊' },
         ].map((stat, index) => (
-          <div
-            key={index}
-            className="stat bg-base-100 dark:bg-gray-900 rounded-box shadow-lg"
-          >
+          <div key={index} className="stat bg-base-100 rounded-box shadow-lg">
             <div className="stat-figure text-4xl">{stat.icon}</div>
-            <div className="stat-title">{stat.label}</div>
+            <div className="stat-title text-base-content/70">{stat.label}</div>
             <div className="stat-value text-primary">{stat.number}</div>
           </div>
         ))}

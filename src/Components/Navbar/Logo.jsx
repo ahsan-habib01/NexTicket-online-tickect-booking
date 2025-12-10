@@ -5,7 +5,7 @@ const Logo = () => {
       <img src="/route.png" alt="" className="h-7 w-7" />
 
       {/* Text */}
-      <h1 className="text-3xl font-bold text-orange-950 dark:text-white tracking-tight">
+      <h1 className="text-3xl font-bold text-base-content tracking-tight">
         NexTicket
       </h1>
     </div>

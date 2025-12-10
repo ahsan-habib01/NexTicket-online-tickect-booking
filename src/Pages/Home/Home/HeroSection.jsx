@@ -18,7 +18,7 @@ const HeroSection = () => {
       image:
         'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1920&h=800&fit=crop',
       cta: 'Browse All Tickets',
-      gradient: 'from-blue-600 to-purple-600',
+      gradient: 'from-gray-800 to-purple-800',
     },
     {
       id: 2,
@@ -29,7 +29,7 @@ const HeroSection = () => {
       image:
         'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&h=800&fit=crop',
       cta: 'Start Exploring',
-      gradient: 'from-orange-500 to-red-600',
+      gradient: 'from-orange-800 to-red-800',
     },
     {
       id: 3,
@@ -39,7 +39,7 @@ const HeroSection = () => {
       image:
         'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=1920&h=800&fit=crop',
       cta: 'Book Now',
-      gradient: 'from-green-500 to-teal-600',
+      gradient: 'from-green-800 to-teal-900',
     },
   ];
 

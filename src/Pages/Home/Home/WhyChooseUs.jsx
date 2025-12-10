@@ -41,7 +41,7 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="container mx-auto px-4 py-16 bg-base-100 dark:bg-gray-900">
+    <section className="container mx-auto px-4 py-16 bg-base-100">
       {/* Section Header */}
       <div className="text-center mb-12 animate-fadeIn">
         <div className="inline-block px-4 py-2 bg-secondary/10 rounded-full mb-4">
@@ -49,7 +49,7 @@ const WhyChooseUs = () => {
             ✨ WHY US
           </span>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+        <h2 className="text-4xl text-base-content md:text-5xl font-bold mb-4">
           Why Choose NexTicket?
         </h2>
         <p className="text-base-content/70 text-lg max-w-2xl mx-auto">
@@ -62,7 +62,7 @@ const WhyChooseUs = () => {
         {features.map((feature, index) => (
           <div
             key={index}
-            className="card bg-base-200 dark:bg-gray-800 shadow-lg hover:shadow-2xl transition-all duration-500 animate-slideUp"
+            className="card bg-base-200 shadow-lg hover:shadow-2xl transition-all duration-500 animate-slideUp"
             style={{ animationDelay: `${index * 0.1}s` }}
           >
             <div className="card-body items-center text-center">
@@ -72,7 +72,9 @@ const WhyChooseUs = () => {
               </div>
 
               {/* Title */}
-              <h3 className="card-title text-2xl mb-3">{feature.title}</h3>
+              <h3 className="card-title text-base-content text-2xl mb-3">
+                {feature.title}
+              </h3>
 
               {/* Description */}
               <p className="text-base-content/70">{feature.description}</p>

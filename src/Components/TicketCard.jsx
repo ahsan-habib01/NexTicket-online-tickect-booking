@@ -14,7 +14,7 @@ const TicketCard = ({ ticket }) => {
   } = ticket;
 
   return (
-    <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+    <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 border border-base-300">
       {/* Image */}
       <figure className="h-48 overflow-hidden">
         <img
@@ -29,7 +29,7 @@ const TicketCard = ({ ticket }) => {
         <div className="badge badge-primary badge-sm mb-2">{transportType}</div>
 
         {/* Title */}
-        <h2 className="card-title text-lg">
+        <h2 className="card-title text-lg text-base-content">
           {title}
           {quantity === 0 && (
             <div className="badge badge-error badge-sm">Sold Out</div>
@@ -37,7 +37,7 @@ const TicketCard = ({ ticket }) => {
         </h2>
 
         {/* Route */}
-        <div className="flex items-center gap-2 text-sm text-gray-600">
+        <div className="flex items-center gap-2 text-sm text-base-content/70">
           <span className="font-semibold">{fromLocation}</span>
           <span>→</span>
           <span className="font-semibold">{toLocation}</span>
@@ -47,11 +47,13 @@ const TicketCard = ({ ticket }) => {
         <div className="flex items-center justify-between mt-2">
           <div>
             <p className="text-2xl font-bold text-primary">৳{pricePerUnit}</p>
-            <p className="text-xs text-gray-500">per ticket</p>
+            <p className="text-xs text-base-content/50">per ticket</p>
           </div>
           <div className="text-right">
-            <p className="text-sm font-semibold">{quantity} tickets</p>
-            <p className="text-xs text-gray-500">available</p>
+            <p className="text-sm font-semibold text-base-content">
+              {quantity} tickets
+            </p>
+            <p className="text-xs text-base-content/50">available</p>
           </div>
         </div>
 

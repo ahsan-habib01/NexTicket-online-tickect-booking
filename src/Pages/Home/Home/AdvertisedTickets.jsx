@@ -29,7 +29,7 @@ const AdvertisedTickets = () => {
 
   if (loading) {
     return (
-      <section className="container mx-auto px-4 py-16">
+      <section className="container mx-auto px-4 py-16 bg-base-100">
         <div className="flex justify-center items-center min-h-[400px]">
           <span className="loading loading-spinner loading-lg text-primary"></span>
         </div>
@@ -42,7 +42,7 @@ const AdvertisedTickets = () => {
   }
 
   return (
-    <section className="container mx-auto px-4 py-16 bg-base-100 dark:bg-gray-900">
+    <section className="container mx-auto px-4 py-16 bg-base-100">
       {/* Section Header */}
       <div className="text-center mb-12 animate-fadeIn">
         <div className="inline-block px-4 py-2 bg-primary/10 rounded-full mb-4">
@@ -50,7 +50,7 @@ const AdvertisedTickets = () => {
             ⭐ ADMIN'S CHOICE
           </span>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+        <h2 className="text-base-content text-4xl md:text-5xl font-bold mb-4">
           Advertisement Section
         </h2>
         <p className="text-base-content/70 text-lg max-w-2xl mx-auto">

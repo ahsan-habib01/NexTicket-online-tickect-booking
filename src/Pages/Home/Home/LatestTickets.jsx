@@ -30,7 +30,7 @@ const LatestTickets = () => {
 
   if (loading) {
     return (
-      <section className="container mx-auto px-4 py-16">
+      <section className="container mx-auto px-4 py-16 bg-base-200">
         <div className="flex justify-center items-center min-h-[400px]">
           <span className="loading loading-spinner loading-lg text-primary"></span>
         </div>
@@ -43,7 +43,7 @@ const LatestTickets = () => {
   }
 
   return (
-    <section className="container mx-auto px-4 py-16 bg-base-200 dark:bg-gray-800">
+    <section className="container mx-auto px-4 py-16 bg-base-200">
       {/* Section Header */}
       <div className="text-center mb-12 animate-fadeIn">
         <div className="inline-block px-4 py-2 bg-success/10 rounded-full mb-4">
@@ -51,7 +51,9 @@ const LatestTickets = () => {
             🆕 JUST ADDED
           </span>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">Latest Tickets</h2>
+        <h2 className="text-base-content text-4xl md:text-5xl font-bold mb-4">
+          Latest Tickets
+        </h2>
         <p className="text-base-content/70 text-lg max-w-2xl mx-auto">
           6-8 recently added tickets from our verified vendors
         </p>

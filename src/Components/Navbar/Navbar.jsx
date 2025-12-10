@@ -1,4 +1,4 @@
-import React, { use, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import Logo from './Logo';
 import { Link, useNavigate, NavLink } from 'react-router';
 import { toast } from 'react-toastify';
@@ -9,7 +9,7 @@ import ThemeToggle from './ThemeToggle';
 import { userAPI } from '../../utils/api';
 
 const Navbar = () => {
-  const { user, setUser, signOutUser, loading } = use(AuthContext);
+  const { user, setUser, signOutUser, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [userRole, setUserRole] = useState(null);

@@ -34,7 +34,20 @@ const PopularRoutes = () => {
           <Link
             key={index}
             to={`/all-tickets?fromLocation=${route.from}&toLocation=${route.to}`}
-            className="card bg-gradient-to-br from-primary to-secondary text-primary-content hover:shadow-2xl transition-all duration-500 overflow-hidden group animate-scaleIn"
+            className=" card 
+  transition-all duration-500 overflow-hidden group animate-scaleIn
+
+  /* Light Mode */
+  bg-gradient-to-br from-white to-gray-100 text-gray-600 
+  border border-gray-200 shadow-lg
+
+  /* Dark Mode */
+  dark:from-gray-700  dark:to-gray-700  dark:text-white 
+  dark:border dark:border-gray-800 dark:shadow-xl
+
+  /* Hover Effects */
+  hover:shadow-2xl dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.08)]
+  hover:scale-[1.02]"
             style={{ animationDelay: `${index * 0.1}s` }}
           >
             <div className="card-body relative">

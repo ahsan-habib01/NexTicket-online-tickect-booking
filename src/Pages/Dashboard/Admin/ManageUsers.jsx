@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { userAPI } from '../../../utils/api';
 import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
@@ -27,7 +28,26 @@ const ManageUsers = () => {
   };
 
   const handleMakeAdmin = async email => {
-    if (!confirm('Make this user an Admin?')) return;
+    // Modern confirmation dialog
+    const result = await Swal.fire({
+      title: 'Make Admin?',
+      text: 'Are you sure you want to make this user an Admin?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, make Admin!',
+      cancelButtonText: 'Cancel',
+      background: '#fff',
+      customClass: {
+        popup: 'rounded-lg',
+        title: 'text-xl font-bold',
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline',
+      },
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       const response = await userAPI.updateUserRole(email, 'admin');
@@ -48,7 +68,26 @@ const ManageUsers = () => {
   };
 
   const handleMakeVendor = async email => {
-    if (!confirm('Make this user a Vendor?')) return;
+    // Modern confirmation dialog
+    const result = await Swal.fire({
+      title: 'Make Vendor?',
+      text: 'Are you sure you want to make this user a Vendor?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#10b981',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, make Vendor!',
+      cancelButtonText: 'Cancel',
+      background: '#fff',
+      customClass: {
+        popup: 'rounded-lg',
+        title: 'text-xl font-bold',
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline',
+      },
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       const response = await userAPI.updateUserRole(email, 'vendor');
@@ -69,10 +108,26 @@ const ManageUsers = () => {
   };
 
   const handleMarkFraud = async email => {
-    if (
-      !confirm('Mark this vendor as FRAUD? This will hide all their tickets!')
-    )
-      return;
+    // Warning style for fraud marking
+    const result = await Swal.fire({
+      title: 'Mark as FRAUD?',
+      html: '<p>This will:</p><ul class="text-left"><li>• Hide all vendor\'s tickets</li><li>• Disable their ticket adding ability</li><li>• Mark them permanently as fraud</li></ul>',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Yes, mark as FRAUD!',
+      cancelButtonText: 'Cancel',
+      background: '#fff',
+      customClass: {
+        popup: 'rounded-lg',
+        title: 'text-xl font-bold',
+        confirmButton: 'btn btn-error',
+        cancelButton: 'btn btn-outline',
+      },
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       const response = await userAPI.markVendorAsFraud(email);

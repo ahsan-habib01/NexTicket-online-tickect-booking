@@ -84,6 +84,7 @@ const AllTickets = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <title>See All Tickets - NexTicket</title>
       <h1 className="text-4xl font-bold mb-8 text-center">All Tickets</h1>
 
       {/* Filters Section */}

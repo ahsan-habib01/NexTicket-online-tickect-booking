@@ -117,8 +117,8 @@ const ManageTickets = () => {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
+        <title>Admin Dashboard - Manage Tickets</title>
         <h1 className="text-3xl font-bold">Manage Tickets</h1>
-
         {/* Filter Tabs */}
         <div className="tabs tabs-boxed">
           <button

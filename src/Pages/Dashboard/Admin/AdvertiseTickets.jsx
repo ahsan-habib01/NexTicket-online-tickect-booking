@@ -81,6 +81,7 @@ const AdvertiseTickets = () => {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
+        <title>Admin Dashboard - Advertise Tickets</title>
         <h1 className="text-3xl font-bold">Advertise Tickets</h1>
 
         <div className="stats shadow">

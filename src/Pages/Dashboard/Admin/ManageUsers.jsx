@@ -167,6 +167,7 @@ const ManageUsers = () => {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
+        <title>Admin Dashboard - Manage Users</title>
         <h1 className="text-3xl font-bold">Manage Users</h1>
         <div className="stats shadow">
           <div className="stat">

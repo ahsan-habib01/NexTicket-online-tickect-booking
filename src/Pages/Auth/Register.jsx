@@ -76,23 +76,20 @@ const Register = () => {
   };
 
   return (
-    <section
-      className="flex items-center justify-center min-h-screen  bg-gradient-to-r from-[#fff3ea] to-[#fffdfb] 
-  dark:from-[#0f172a] dark:to-[#020617] py-16"
-    >
-      <title>Create Your Account - Freelify</title>
-      <div className="w-11/12 max-w-md bg-white dark:bg-[#161b22] shadow-lg rounded-2xl p-8">
-        <h2 className="text-3xl font-bold text-[#ff6f3c] text-center mb-2">
+    <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-orange-50 to-orange-100 dark:from-base-300 dark:to-base-200 py-16 transition-colors duration-300">
+      <title>Create Your Account - NexTicket</title>
+      <div className="w-11/12 max-w-md bg-base-100 shadow-2xl rounded-2xl p-8 border border-base-300">
+        <h2 className="text-3xl font-bold text-primary text-center mb-2">
           Create Your Account
         </h2>
-        <p className="text-center text-gray-600 dark:text-gray-300 mb-6">
-          A Global Hub for Freelancers and Dream Projects
+        <p className="text-center text-base-content/70 mb-6">
+          Join NexTicket and start your journey today
         </p>
 
         <form onSubmit={handleRegister} className="space-y-5">
           {/* Name */}
           <div>
-            <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+            <label className="block text-base-content font-medium mb-2">
               Full Name
             </label>
             <input
@@ -100,26 +97,26 @@ const Register = () => {
               name="name"
               placeholder="Enter your name"
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff6900] dark:focus:ring-[#ff5500]"
+              className="input input-bordered w-full focus:input-primary bg-base-200"
             />
           </div>
 
           {/* Photo URL */}
           <div>
-            <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+            <label className="block text-base-content font-medium mb-2">
               Photo URL
             </label>
             <input
               type="url"
               name="photo"
               placeholder="Enter your photo URL"
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff6900] dark:focus:ring-[#ff5500]"
+              className="input input-bordered w-full focus:input-primary bg-base-200"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+            <label className="block text-base-content font-medium mb-2">
               Email
             </label>
             <input
@@ -127,13 +124,13 @@ const Register = () => {
               name="email"
               placeholder="Enter your email"
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff6900] dark:focus:ring-[#ff5500]"
+              className="input input-bordered w-full focus:input-primary bg-base-200"
             />
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+            <label className="block text-base-content font-medium mb-2">
               Password
             </label>
             <div className="relative">
@@ -144,47 +141,42 @@ const Register = () => {
                 onChange={handlePasswordChange}
                 placeholder="Enter your password"
                 required
-                className={`w-full px-4 py-2 border ${
-                  passwordError
-                    ? 'border-red-500 focus:ring-red-500'
-                    : 'border-gray-300 dark:border-gray-600 focus:ring-[#ff6900] dark:focus:ring-[#ff5500]'
-                } rounded-lg focus:outline-none focus:ring-2 pr-10 transition-all duration-300`}
+                className={`input input-bordered w-full pr-10 bg-base-200 ${
+                  passwordError ? 'input-error' : 'focus:input-primary'
+                }`}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/50 hover:text-base-content"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
             {passwordError && (
-              <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+              <p className="text-error text-sm mt-1 flex items-center gap-1">
+                <span>⚠️</span>
+                {passwordError}
+              </p>
             )}
           </div>
 
           {/* Register Button */}
           <button
             type="submit"
-            className="w-full bg-[#ff6f3c] text-white font-semibold py-2 rounded-lg hover:bg-[#ff9346] dark:hover:bg-[#ff6900] transition cursor-pointer"
+            className="btn btn-primary w-full font-semibold"
           >
             Register
           </button>
         </form>
 
         {/* Divider */}
-        <div className="flex items-center justify-center my-1">
-          <div className="w-1/4 h-px bg-gray-300 dark:bg-gray-600"></div>
-          <span className="mx-3 text-gray-500 dark:text-gray-400 font-medium">
-            or
-          </span>
-          <div className="w-1/4 h-px bg-gray-300 dark:bg-gray-600"></div>
-        </div>
+        <div className="divider text-base-content/50">or</div>
 
         {/* Google Login */}
         <button
           onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer"
+          className="btn btn-outline w-full gap-3"
         >
           <img
             src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -194,11 +186,11 @@ const Register = () => {
           Continue with Google
         </button>
 
-        <p className="text-center text-gray-700 dark:text-gray-300 mt-6">
+        <p className="text-center text-base-content/80 mt-6">
           Already have an account?{' '}
           <Link
             to="/auth/login"
-            className="text-[#ff6f3c] font-semibold hover:text-[#ff9346]"
+            className="text-primary font-semibold hover:text-secondary transition-colors"
           >
             Login
           </Link>

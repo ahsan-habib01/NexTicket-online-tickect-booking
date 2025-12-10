@@ -81,6 +81,7 @@ const MyAddedTickets = () => {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
+        <title>Vendor Dashboard - My Added Tickets</title>
         <h1 className="text-3xl font-bold">My Added Tickets</h1>
         <Link to="/dashboard/vendor/add-ticket" className="btn btn-primary">
           Add New Ticket

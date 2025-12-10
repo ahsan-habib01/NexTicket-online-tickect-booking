@@ -45,6 +45,7 @@ const RevenueOverview = () => {
 
   return (
     <div>
+      <title>Vendor Dashboard - Revenue Overview</title>
       <h1 className="text-3xl font-bold mb-6">Revenue Overview</h1>
 
       {/* Stats Cards */}

@@ -99,6 +99,7 @@ const RequestedBookings = () => {
 
   return (
     <div>
+      <title>Vendor Dashboard - Requested Bookings</title>
       <h1 className="text-3xl font-bold mb-6">Requested Bookings</h1>
 
       <div className="overflow-x-auto">

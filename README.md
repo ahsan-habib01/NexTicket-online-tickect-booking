@@ -3,7 +3,7 @@
 A modern, full-featured online ticket booking platform for Bus, Train, Launch, and Flight tickets built with React and the MERN stack.
 
 ## 🔗 Live Site
-[[Your Live URL Here](https://nex-ticket.netlify.app)]
+[[Live URL](https://nex-ticket.netlify.app)]
 
 ## ✨ Key Features
 

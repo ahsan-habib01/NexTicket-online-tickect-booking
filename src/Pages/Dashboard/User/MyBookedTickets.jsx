@@ -10,12 +10,22 @@ const MyBookedTickets = () => {
   const [loading, setLoading] = useState(true);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [currentTime, setCurrentTime] = useState(Date.now()); // Track current time
 
   useEffect(() => {
     if (user?.email) {
       fetchBookings();
     }
   }, [user]);
+
+  // Update countdown every second
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000); // Update every 1 second
+
+    return () => clearInterval(timer); // Cleanup on unmount
+  }, []);
 
   const fetchBookings = async () => {
     try {
@@ -44,7 +54,7 @@ const MyBookedTickets = () => {
   };
 
   const getCountdown = (departureDate, departureTime) => {
-    const now = new Date().getTime();
+    const now = currentTime; // Use state instead of Date.now()
     const departureDateTime = new Date(
       `${departureDate}T${departureTime}`
     ).getTime();
@@ -57,8 +67,9 @@ const MyBookedTickets = () => {
       (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
     );
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000); // Calculate seconds
 
-    return `${days}d ${hours}h ${minutes}m`;
+    return `${days}d ${hours}h ${minutes}m ${seconds}s`; // Add seconds to display
   };
 
   const handlePayNow = booking => {
@@ -177,7 +188,7 @@ const MyBookedTickets = () => {
                 {canPay && (
                   <div className="card-actions justify-end mt-4">
                     <button
-                      onClick={() => handlePayNow(booking)} // Pass entire booking
+                      onClick={() => handlePayNow(booking)}
                       className="btn btn-primary btn-sm w-full"
                     >
                       Pay Now
